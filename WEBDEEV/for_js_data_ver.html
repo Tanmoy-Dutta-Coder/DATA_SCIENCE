@@ -46,7 +46,28 @@
     let d=NaN;
     console.log(x,y,z,p,q,f,d);
     console.log(typeof x,typeof y,typeof z,typeof p,typeof q,typeof f,typeof d);
+    // why ttypeof null = "object" ?
 
+
+
+    //Object
+    let o ={
+        "Name":"Tanmoy",
+        "Job Code" :5600
+    }
+    console.log(o);
+    o.salary=55000
+    console.log(o);
+    o.ishandsome=true
+    console.log(o);
+    // The result of typeof null is "object". That’s an officially  
+    // recognized error in typeof, coming from very early days of 
+    // JavaScript and kept for compatibility. Definitely, null is not an
+    // object. It is a special value with a separate type of its own. The 
+    // behavior of typeof is wrong here.
+
+
+    
 </script>
 
-</html>
+</html>  
