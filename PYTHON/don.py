@@ -88,4 +88,15 @@ def revduo():
                 print(k)
 
 revduo()
-
+def special():
+    int=["0","1","2","3","4","5","6","7","8","9"]
+    x=input("Enter a string :").upper()
+    ls=list(x)
+    print(ls)
+    
+    for I in ls:
+        if ("Z">=I>="A") or ("9">=I>="0"):
+            continue
+        else:
+            print("It's a special str \t",I)   
+special()        
