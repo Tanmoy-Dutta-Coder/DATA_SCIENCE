@@ -1,0 +1,92 @@
+[
+  {
+    "transaction_id": "TXN1107",
+    "return_date": "2024-05-17",
+    "reason": "Late delivery"
+  },
+  {
+    "transaction_id": "TXN1025",
+    "return_date": "2024-04-28",
+    "reason": "Size/fit issue"
+  },
+  {
+    "transaction_id": "TXN1035",
+    "return_date": "2024-02-21",
+    "reason": "Damaged in transit"
+  },
+  {
+    "transaction_id": "TXN1116",
+    "return_date": "2024-04-26",
+    "reason": "Late delivery"
+  },
+  {
+    "transaction_id": "TXN1005",
+    "return_date": "2024-05-10",
+    "reason": "Defective product"
+  },
+  {
+    "transaction_id": "TXN1083",
+    "return_date": "2024-05-05",
+    "reason": "Size/fit issue"
+  },
+  {
+    "transaction_id": "TXN1027",
+    "return_date": "2024-04-19",
+    "reason": "Size/fit issue"
+  },
+  {
+    "transaction_id": "TXN1050",
+    "return_date": "2024-03-28",
+    "reason": "Late delivery"
+  },
+  {
+    "transaction_id": "TXN1140",
+    "return_date": "2024-02-01",
+    "reason": "Wrong item shipped"
+  },
+  {
+    "transaction_id": "TXN1118",
+    "return_date": "2024-03-30",
+    "reason": "Changed mind"
+  },
+  {
+    "transaction_id": "TXN1075",
+    "return_date": "2024-07-01",
+    "reason": "Changed mind"
+  },
+  {
+    "transaction_id": "TXN1130",
+    "return_date": "2024-03-19",
+    "reason": "Late delivery"
+  },
+  {
+    "transaction_id": "TXN1103",
+    "return_date": "2024-04-17",
+    "reason": "Damaged in transit"
+  },
+  {
+    "transaction_id": "TXN1004",
+    "return_date": "2024-01-15",
+    "reason": "Changed mind"
+  },
+  {
+    "transaction_id": "TXN1044",
+    "return_date": "2024-01-28",
+    "reason": "Size/fit issue"
+  },
+  {
+    "transaction_id": "TXN1073",
+    "return_date": "2024-03-10",
+    "reason": "Size/fit issue"
+  },
+  {
+    "transaction_id": "TXN1032",
+    "return_date": "2024-02-04",
+    "reason": "Changed mind"
+  },
+  {
+    "transaction_id": "TXN1059",
+    "return_date": "2024-05-16",
+    "reason": "Defective product"
+  }
+]
