@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1 {
+            color: rgb(144, 0, 255);
+        }
+
+        .cred {
+            color: red !important;
+        }
+
+        .cgreen {
+            color: rgb(13, 255, 0);
+        }
+
+        .cyellow {
+            color: rgb(1, 255, 90) ;
+        }
+
+        [fuck="u"] {
+            color: aqua;
+        }
+    </style>
+
+</head>
+
+<body>
+    <pre>
+        <b>Specificity Calculation</b>
+        To calculate specificity, assign a value to each part of the selector:
+
+        Universal Selector: 0
+        Element selectors and pseudo-elements: 1
+        Class selectors, attribute selectors, and pseudo-classes: 10
+        ID selectors: 100
+        Inline styles: 1000
+
+    </pre>
+    <h1 style="color: chocolate;" fuck="u" class="cyellow cred cgreen">good night</h1>
+</body>
+
+</html>
