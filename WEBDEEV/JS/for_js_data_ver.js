@@ -10,13 +10,13 @@ console.log("Hii , iam tanmoy");
         console.log(a)
     }
     console.log(a);
-    const a=7;
-    let name = "Harry";
-    let name = "CodeWithHarry"; // This will throw an error
-    let a = 10;
-    let b = 20;
-    let sum = a + b; // 30
-    console.log(sum);
+    // const a=7;
+    // let name = "Harry";
+    // let name = "CodeWithHarry"; // This will throw an error
+    // let a = 10;
+    // let b = 20;
+    // let sum = a + b; // 30
+    // console.log(sum);
     
     let str1 = "Code";
     let str2 = "WithHarry";

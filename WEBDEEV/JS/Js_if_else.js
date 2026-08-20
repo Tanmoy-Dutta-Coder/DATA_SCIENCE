@@ -9,7 +9,7 @@ console.log(age-grace);
 console.log(age*grace);
 console.log(age/grace);
 console.log(age**grace);
-console.log(age%grace);
+console.log(agegrace);
 age += grace
 console.log("new age",age);
 
