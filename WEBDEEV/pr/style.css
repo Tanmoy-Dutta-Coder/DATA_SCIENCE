@@ -1,29 +1,43 @@
 @import url('https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@400..800&family=Black+Ops+One&family=Geist+Pixel&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
-*{
+
+* {
     margin: 0;
     padding: 0;
 }
-a,ul{
+
+a,
+ul {
     text-decoration: none;
     color: black;
     list-style: none;
 }
-.head{
+
+button {
+    color: white;
+    background-color: red;
+}
+
+#date {
+    color: red;
+}
+
+.head {
     height: 150px;
     width: 100%;
     color: white;
     background-color: rgb(86, 90, 93);
-    /* margin: auto; */
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 5vw;
 }
-.head .txt{
+
+.head .txt {
     font-family: "Black Ops One", system-ui;
     display: flex;
 }
-.head .ad{
+
+.head .ad {
     height: 50%;
     width: 45%;
     background-color: rgb(249, 249, 249);
@@ -32,7 +46,8 @@ a,ul{
     justify-content: center;
     align-items: center;
 }
-.head2{
+
+.head2 {
     border-bottom: 5px solid rgb(217, 75, 64);
     background: rgb(54, 58, 61);
     display: flex;
@@ -40,57 +55,252 @@ a,ul{
     align-items: center;
     gap: 20px;
 }
-.head2 ul{
+
+.head2 ul {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1vw;
     color: white;
 }
-.head2 li a{
+
+.head2 li a {
     color: white;
     font-family: "Geist Pixel", sans-serif;
     font-weight: 500;
 }
-.head2 li a:hover{
+
+.head2 li a:hover {
     background-color: rgb(217, 75, 64);
     color: white;
 }
-.main{
+
+.main {
     margin: 2% auto;
     display: flex;
     justify-content: center;
     width: 90%;
+    height: auto;
     gap: 1vw;
-    border: 5px solid black;
+    /* border: 5px solid black; */
 }
-.main .left{
-    width:65%;
-    border: 4px solid red;
+
+/* LEFT */
+.main .left {
+    width: 65%;
 }
-.main .left #txt{
+
+.main .left #txt {
     padding-top: 30vh;
 }
-.left #div1{
-    /* border: 4px solid; */
+
+.left #div1 {
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-image: url("https://plus.unsplash.com/premium_photo-1677620224068-b0ac80467f77?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8dG93bnxlbnwwfHwwfHx8MA%3D%3D");
     width: 100%;
-    height: 30%;
+    /* height: 30%; */
     color: white;
-    /* text-align:start; */
+}
+
+.left .div2,
+.div3,
+.div4,
+.div5,
+.div6,
+.div7,
+.div8 {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 2vw;
+}
+
+.div2>.img {
+    width: 39%;
+    text-align: right;
+    background-size: 100% 100%;
+    background-image: url("https://plus.unsplash.com/premium_photo-1677620224068-b0ac80467f77?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8dG93bnxlbnwwfHwwfHx8MA%3D%3D");
+}
+
+.div3>.img {
+    width: 39%;
+    text-align: right;
+    background-size: 100% 100%;
+    background-image: url("https://media.istockphoto.com/id/618432992/photo/woman-enjoying-the-weekend-in-the-shopping-mall.webp?a=1&b=1&s=612x612&w=0&k=20&c=7QfjvN8ZUrxnJagqOBzyac5K852d0J-KE7H6nQ_SQ9c=");
+}
+
+.div4>.img {
+    width: 39%;
+    text-align: right;
+    background-size: 100% 100%;
+    background-image: url("https://images.unsplash.com/photo-1787126582040-b5639e21ca9c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyMDd8fHxlbnwwfHx8fHw%3D");
+}
+
+.div5>.img {
+    width: 39%;
+    text-align: right;
+    background-size: 100% 100%;
+    background-image: url("https://images.unsplash.com/photo-1785812887333-aa5079ce8a08?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyODF8fHxlbnwwfHx8fHw%3D");
+}
+
+.div6>.img {
+    width: 39%;
+    text-align: right;
+    background-size: 100% 100%;
+    background-image: url("https://images.unsplash.com/photo-1601295815181-b70b374bf3bd?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bGl6ZXJkfGVufDB8fDB8fHww");
+}
+
+.div7>.img {
+    width: 39%;
+    text-align: right;
+    background-size: 100% 100%;
+    background-image: url("https://images.unsplash.com/photo-1786886382297-b3d20435bc20?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyNzl8fHxlbnwwfHx8fHw%3D");
+}
+
+.div8>.img {
+    width: 39%;
+    text-align: right;
+    background-size: 100% 100%;
+    background-image: url("https://images.unsplash.com/photo-1786658966666-860588366c0d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyODJ8fHxlbnwwfHx8fHw%3D");
+}
+
+.txt>button {
+    border: none;
+    background-color: white;
+    color: red;
+    font-size: medium;
+}
+
+.right {
+    width: 35%;
+}
+
+.box>h3 {
+    width: 100%;
+    text-align: center;
+    background-color: red;
+    color: white;
+    margin-bottom: 5vh;
+}
+
+.box ul {
+    list-style-type: disc;
+    list-style-position: inside;
+    padding-left: 10px;
+}
+
+.box li {
+    padding-bottom: 2vh;
+    border-bottom: 1px solid whitesmoke;
+}
+
+.con1,
+.con2,
+.con3,
+.con4 {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 2vw;
+}
+
+.con1>.img {
+    width: 39%;
+    text-align: right;
+    background-size: 100% 100%;
+    background-image: url("https://plus.unsplash.com/premium_photo-1677620224068-b0ac80467f77?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8dG93bnxlbnwwfHwwfHx8MA%3D%3D");
 
 }
-.left .div2,.div3,.div4,.div5,.div6,.div7,.div8{
-    width: 100%;
-    display: flex;
-}
-.left .div2,.div3,.div4,.div5,.div6,.div7,.div8 .img{
-    width: 30%;
-    padding: 15px;
+
+.con2>.img {
+    width: 39%;
+    text-align: right;
     background-size: 100% 100%;
-    background-repeat: no-repeat;
-    /* background-image: ; */
-    background-color: red;
+    background-image: url("https://media.istockphoto.com/id/618432992/photo/woman-enjoying-the-weekend-in-the-shopping-mall.webp?a=1&b=1&s=612x612&w=0&k=20&c=7QfjvN8ZUrxnJagqOBzyac5K852d0J-KE7H6nQ_SQ9c=");
+
+}
+
+.con3>.img {
+    width: 39%;
+    text-align: right;
+    background-size: 100% 100%;
+    background-image: url("https://images.unsplash.com/photo-1787126582040-b5639e21ca9c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyMDd8fHxlbnwwfHx8fHw%3D");
+
+}
+
+.con4>.img {
+    width: 39%;
+    text-align: right;
+    background-size: 100% 100%;
+    background-image: url("https://images.unsplash.com/photo-1786886382297-b3d20435bc20?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyNzl8fHxlbnwwfHx8fHw%3D");
+
+}
+
+#media {
+    height: 18vh;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 20px;
+    align-items: center;
+    justify-items: center;
+    color: red;
+    margin-bottom: 10px;
+}
+
+.video>iframe {
+    width: 100%;
+}
+
+/* footer */
+#load {
+    text-align: center;
+    margin-bottom: 1vh;
+}
+
+.footer {
+    color: white;
+    width: 100%;
+    border-top: 4px solid red;
+    background-color: rgb(86, 90, 93);
+    padding-top: 5vh;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    gap: 20px;
+    /* align-items: center; */
+    justify-items: center;
+}
+
+.p1 {
+    color: gray;
+}
+
+.sec2 {
+    width: 100%;
+}
+
+.footer ul {
+    width: 100%;
+    /* border: 2px solid white; */
+    color: whitesmoke;
+    list-style-type: disc;
+    list-style-position: inside;
+
+    li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #827d7d;
+        padding: 1vh 0;
+    }
+
+}
+
+.number {
+    text-align: end;
 }
