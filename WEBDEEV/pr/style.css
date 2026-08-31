@@ -300,7 +300,20 @@ button {
     }
 
 }
-
 .number {
     text-align: end;
+}
+@media (max-width:760px) {
+    .main{
+        display: block;
+    }
+    .main .left{
+        width: 100%;
+    }
+    .main .right{
+        width: 100%;
+        display:grid;
+        grid-template-columns: repeat(2,1fr);
+        grid-template-rows:repeat(1,1fr) ;
+    }
 }
