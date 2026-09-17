@@ -41,13 +41,6 @@ Create a Product class where price cannot be set to a negative value. Implement 
 Create a ShoppingCart class supporting add product, remove product, update quantity, calculate subtotal, discount, tax, and final price.
 Create a Library system using Book, Member, and Library classes. Implement issue, return, search, and overdue-book functionality.
 Create a Hotel booking system using Hotel, Room, Customer, and Booking classes. Prevent booking an already occupied room.
-Create an Employee hierarchy:
-Employee
- ├── Developer
- ├── Manager
- └── HR
-
-Each class must calculate salary differently using polymorphism.
 
 Create a Vehicle hierarchy:
 Vehicle
@@ -116,37 +109,7 @@ cache.put(key, value)
 
 Both operations should have approximately O(1) average time complexity.
 
-Final Project: Build a complete Travel Booking Management System using Python OOP.
-
-It must support:
-
-Customer
-Agent
-Hotel
-Room
-Flight
-Airline
-HotelBooking
-FlightBooking
-Payment
-Invoice
-Cancellation
-Discount
-Notification
-
-Required operations:
-
-Customer registration
-Hotel booking
-Flight booking
-Room availability
-Payment
-Cancellation
-Refund
-Invoice generation
-Discount calculation
-Booking history
-Revenue calculation
+Final Project: 
 '''
 '''
 #Variable & Data type
@@ -274,7 +237,7 @@ e4.display()
 e5.display()
 '''
 # Create a BankAccount class supporting deposit, withdrawal, balance checking, and transaction history. Prevent invalid withdrawals.
-
+'''
 from datetime import datetime
 
 class BankAccount:
@@ -361,3 +324,73 @@ while True:
     else:
         print("Choose an option that is between 1-5")  
     print("\n" + "-"*40 + "\n")
+'''
+
+
+'''
+Create an Employee hierarchy:
+Employee
+ ├── Developer
+ ├── Manager
+ └── HR
+
+Each class must calculate salary differently using polymorphism  
+'''
+'''
+class Employee:
+    def __init__(self,employee_name,department):
+        self.emp_name=employee_name
+        self.dept=department
+    def details(self):
+        print(f"The employee is {self.emp_name} and Department is {self.dept}")
+class Devloper(Employee):
+    def __init__(self, employee_name, department,salary,designation):
+        super().__init__(employee_name, department)
+        self.paisa=salary
+        self.designation=designation
+    def salary_detailes_dev(self):
+        print(f"His designation is {self.designation}, and salary is {self.paisa}")
+class Manager(Employee):
+    def __init__(self, employee_name, department,salary,designation):
+        super().__init__(employee_name, department)
+        self.paisa=salary
+        self.designation=designation
+    def salary_detailes_maneger(self):
+        print(f"His designation is {self.designation}, and salary is {self.paisa}")
+class HR(Employee):
+    def __init__(self, employee_name, department,salary,designation):
+        super().__init__(employee_name, department)
+        self.paisa=salary
+        self.designation=designation
+    def salary_detailes_HR(self):
+        print(f"His designation is {self.designation}, and salary is {self.paisa}")      
+emp1=Devloper("Tanmoy Dutta","Devlopment",350000,"Fullstack Devloper")
+emp1.details()
+emp1.salary_detailes_dev()
+emp2=Devloper("Shivesh Tiwari","Devlopment",500000,"Backend Devloper")
+emp2.details()
+emp2.salary_detailes_dev()
+emp3=Devloper("Soumodip Jana","Devlopment",600000,"Fullstack Devloper")
+emp3.salary_detailes_dev()
+emp3.details()
+print("_______________________________________")
+emp1=Manager("Shubham Jana","Managment",850000,"Front Officer")
+emp1.details()
+emp1.salary_detailes_maneger()
+emp2=Manager("Shivesh Katalaga","Managment",700000,"P.A.")
+emp2.details()
+emp2.salary_detailes_maneger()
+emp3=Manager("Sudip Jana","Managment",600000,"manager")
+emp3.salary_detailes_maneger()
+emp3.details()
+print("_______________________________________")
+emp1=HR("Tanmoy Dutta","HR",400000,"HR")
+emp1.details()
+emp1.salary_detailes_HR()
+emp2=HR("Shivesh Tiwari","HR",250000,"HR")
+emp2.details()
+emp2.salary_detailes_HR()
+emp3=HR("Soumodip Jana","HR",300000,"HRr")
+emp3.salary_detailes_HR()
+emp3.details()
+'''
