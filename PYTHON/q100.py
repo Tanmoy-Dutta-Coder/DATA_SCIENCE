@@ -394,3 +394,14 @@ emp3=HR("Soumodip Jana","HR",300000,"HRr")
 emp3.salary_detailes_HR()
 emp3.details()
 '''
+'''
+#Write a program to convert a nested list into a single flat list without using external libraries.
+list1=[1,2,3,[4,"frog"],[5,6]]
+print(list1)
+for I in list1[:]:
+ if isinstance(I,list):
+     list1.remove(I)
+     for j in I:
+         list1.append(j)
+print(list1)
+'''
