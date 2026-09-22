@@ -1,3 +1,7 @@
 pythontesting.py
 WEBDEEV\exe.html
 .venv
+NUMPY/Array_manipulation/__pycache__/
+NUMPY/RANDOM/__pycache__/
+NUMPY/__pycache__/
+PANDAS/__pycache__/
