@@ -36,7 +36,6 @@ Write a program to group a list of words into groups of anagrams.
 Write a program to find the most frequently occurring word in a paragraph while ignoring punctuation and case.
 Write a program to parse a string containing employee records and calculate the employee with the highest salary.
 Class & Object Programming
-Create a Student class that stores marks for multiple subjects and calculates total, percentage, grade, and rank.
 Create a Product class where price cannot be set to a negative value. Implement proper encapsulation.
 Create a ShoppingCart class supporting add product, remove product, update quantity, calculate subtotal, discount, tax, and final price.
 Create a Library system using Book, Member, and Library classes. Implement issue, return, search, and overdue-book functionality.
@@ -361,3 +360,23 @@ while True:
     else:
         print("Choose an option that is between 1-5")  
     print("\n" + "-"*40 + "\n")
+
+# Create a Student class that stores marks for multiple subjects and calculates total, percentage, grade, and rank.
+
+class Student:
+    std_id=1000
+    def __init__(self,studen_name,student_id):
+        self.name=studen_name
+        self.id=student_id.std_id
+        student_id.std_id +=1
+class Marks(Student):
+    def __init__(self,student_id,studen_name,subject_1,subject_2,subject_3,subject_4,subject_5,subject_6): 
+        self.sub_1=subject_1
+        self.sub_2=subject_2
+        self.sub_3=subject_3
+        self.sub_4=subject_4
+        self.sub_5=subject_5
+        self.sub_6=subject_6
+        super().__init__(student_id,studen_name)
+    def mark(self):
+        
