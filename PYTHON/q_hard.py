@@ -118,8 +118,47 @@ atm_machine=ATM()
 # atm_machine.user()
 
 
-
-
+# Employee Bonus calculater
+class Employee:
+    def bonus(self):
+        name=input("Enter Your Name:").upper()
+        salary=int(input("Enter the salary :"))
+        experience=int(input("Enter your experience (in Year):"))
+        rating=float(input("Enter your rating :"))
+        if rating<5 and rating<=0:
+            print("Sorry you give invalid rating !!!")
+            rating=float(input("Enter your rating again :"))
+        if experience<=2 :
+            print(f"Hii,{name}")
+            print("Sorry try next year ..")
+        elif experience>2 and experience<=5:
+            if rating >=4:
+                print(f"Hii,{name}")
+                print("Congratulation You got 10% Bonus")
+                salary=salary+(salary*0.1)
+                print(f"Your current salary is {salary}")
+            else:
+                print(f"Hii,{name}")
+                print("Congratulation You got 5% Bonus")
+                salary=salary+(salary*0.05)
+                print(f"Your current salary is {salary}")
+        elif experience>5:
+            if rating ==5:
+                print(f"Hii,{name}")
+                print("Congratulation You got 20% Bonus")
+                salary=salary+(salary*0.2)
+                print(f"Your current salary is {salary}")
+            else:
+                print(f"Hii,{name}")
+                print("Congratulation you got 8% Bonus")
+                salary=salary+(salary*0.08)
+                print(f"Your current salary is {salary}")
+        else:
+            print(f"Hii,{name}")
+            print("sorry You give wrong information !!!!")
+        
+emp=Employee()     
+emp.bonus()      
 
 
 
