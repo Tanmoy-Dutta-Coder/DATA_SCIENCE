@@ -158,7 +158,13 @@ class Employee:
             print("sorry You give wrong information !!!!")
         
 emp=Employee()     
-emp.bonus()      
+# emp.bonus()      
+
+
+# CAS
+# class College:
+#     def addmission(self):
+
 
 
 
