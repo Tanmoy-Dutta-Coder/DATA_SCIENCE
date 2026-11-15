@@ -1,0 +1,51 @@
+{
+  "antigravity": {
+    "display_name": "Google Antigravity",
+    "file_patterns": [
+      "SKILL.md",
+      "workflow.json",
+      "AGY.md"
+    ],
+    "repo_topics": [
+      "antigravity-skill",
+      "antigravity",
+      "agy-skill",
+      "agent-skills",
+      "gemini-antigravity"
+    ],
+    "install_path_hint": "~/.gemini/antigravity/skills/<skill-name>/"
+  },
+  "claude": {
+    "display_name": "Anthropic Claude",
+    "file_patterns": [
+      "CLAUDE.md",
+      "prompt.md",
+      "system_prompt.md",
+      "mcp.json"
+    ],
+    "repo_topics": [
+      "claude-skills",
+      "claude-code",
+      "mcp-server",
+      "agent-skills",
+      "claude-prompts"
+    ],
+    "install_path_hint": ".claude/ or ~/.claude/commands/"
+  },
+  "codex": {
+    "display_name": "OpenAI Codex & Copilot",
+    "file_patterns": [
+      ".copilot-instructions.md",
+      "codex.md",
+      "instructions.md"
+    ],
+    "repo_topics": [
+      "copilot-instructions",
+      "codex-prompts",
+      "agent-skills",
+      "openai-assistant"
+    ],
+    "install_path_hint": ".github/copilot-instructions.md or ~/.codex/"
+  }
+}
+

@@ -1,0 +1,54 @@
+{
+  "version": "1.0",
+  "agents": {
+    "antigravity": {
+      "id": "antigravity",
+      "name": "Google Antigravity",
+      "description": "Antigravity skills, custom agents, workflows, rules, and sidecars",
+      "badge_color": "emerald",
+      "icon": "Sparkles",
+      "code_search": {
+        "filenames": ["SKILL.md", "workflow.json", "AGY.md"],
+        "paths": ["skills/", ".gemini/antigravity/", ".gemini/antigravity/skills/", "builtin/skills/"],
+        "content_qualifiers": ["name:", "description:"]
+      },
+      "repo_search": {
+        "topics": ["antigravity-skill", "antigravity", "antigravity-workflow", "agy-skill", "gemini-antigravity"],
+        "keywords": ["antigravity skill", "antigravity agent", "antigravity workflow"]
+      }
+    },
+    "claude": {
+      "id": "claude",
+      "name": "Anthropic Claude",
+      "description": "Claude custom instructions, project slash commands, and Model Context Protocol (MCP) servers",
+      "badge_color": "amber",
+      "icon": "Bot",
+      "code_search": {
+        "filenames": ["CLAUDE.md", "prompt.md", "system_prompt.md", "mcp.json"],
+        "paths": [".claude/", ".claude/commands/"],
+        "content_qualifiers": []
+      },
+      "repo_search": {
+        "topics": ["claude-skill", "claude-code", "mcp-server", "claude-instructions", "claude-prompts"],
+        "keywords": ["claude custom instructions", "claude skill", "claude prompt"]
+      }
+    },
+    "codex": {
+      "id": "codex",
+      "name": "OpenAI Codex & Copilot",
+      "description": "GitHub Copilot custom instructions, OpenAI Codex prompts, and assistant instructions",
+      "badge_color": "blue",
+      "icon": "Code2",
+      "code_search": {
+        "filenames": [".copilot-instructions.md", "codex.md", "instructions.md"],
+        "paths": [".github/", ".github/copilot/", "prompts/"],
+        "content_qualifiers": []
+      },
+      "repo_search": {
+        "topics": ["copilot-instructions", "codex-prompts", "openai-assistant", "github-copilot"],
+        "keywords": ["copilot instructions", "codex prompt", "openai instructions"]
+      }
+    }
+  }
+}
+
