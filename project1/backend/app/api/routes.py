@@ -1,111 +1,75 @@
-import re
-from fastapi import APIRouter, Query, Header, HTTPException, Response, status
-from typing import Optional, List, Dict, Any
+from typing import Literal, Optional
 
-from ..models.schemas import AgentSummary, RateLimitInfo
+from fastapi import APIRouter, BackgroundTasks, HTTPException, Query, status
+from pydantic import BaseModel, Field
+
+from ..models.schemas import AgentSummary
+from ..services.catalog_service import catalog_service
 from ..services.config_service import config_service
-from ..services.github_client import github_client
-from github_search import (
-    search_skills,
-    load_agents_config,
-    GitHubRateLimitError,
-    GitHubSearchError
-)
+from ..services.query_understanding import understand
+from crawler import github_crawler
 
 router = APIRouter(prefix="/api")
 
-@router.get("/agents", response_model=List[AgentSummary])
+
+class FeedbackRequest(BaseModel):
+    skill_id: int = Field(ge=1)
+    query: str = Field(min_length=1, max_length=200)
+    action: str = Field(pattern="^(click|copy|open)$")
+
+
+@router.get("/agents", response_model=list[AgentSummary])
 async def get_agents():
-    """Retrieve all supported AI agents and their metadata."""
     return config_service.get_all_agents()
+
 
 @router.get("/search")
 async def search_skills_endpoint(
-    response: Response,
-    agent: str = Query(..., description="Target AI agent, e.g. 'claude', 'codex', or 'antigravity'"),
-    q: str = Query(default="", description="Search keywords, separated by comma or space (e.g. 'pdf,forms')"),
-    x_github_token: Optional[str] = Header(default=None, alias="X-GitHub-Token")
-) -> Dict[str, Any]:
-    """
-    Search for AI agent skills across GitHub repositories.
-    
-    Query parameters:
-    - agent: target agent identifier (validated against agents_config.json)
-    - q: keywords separated by comma or space, up to 5 keywords
-    
-    Returns JSON:
-    {
-        "agent": "claude",
-        "keywords": ["pdf", "forms"],
-        "count": 12,
-        "results": [ ... ]
-    }
-    """
-    # 1. Validate that the agent exists in configuration
-    configs = load_agents_config()
-    clean_agent = agent.lower().strip()
-    if not clean_agent or clean_agent not in configs:
-        available = ", ".join(configs.keys())
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Invalid agent '{agent}'. Agent does not exist in configuration. Supported agents: {available}"
-        )
-
-    # 2. Split keywords by comma or space, max 5 keywords
-    raw_tokens = re.split(r'[, ]+', q.strip()) if q else []
-    keywords = [t.strip() for t in raw_tokens if t.strip()][:5]
-    if not keywords:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="At least one keyword is required. Example: ?q=pdf"
-        )
-    keyword_query = " ".join(keywords)
-
-    # 3. Perform GitHub search
-    try:
-        results = await search_skills(agent=clean_agent, keywords=keyword_query)
-    except GitHubRateLimitError as rle:
-        response.headers["Retry-After"] = str(rle.retry_after)
-        raise HTTPException(
-            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
-            detail=f"GitHub API rate limit exceeded. Retry after {rle.retry_after} seconds. Consider providing a GITHUB_TOKEN in .env or settings.",
-            headers={"Retry-After": str(rle.retry_after)}
-        )
-    except GitHubSearchError as gse:
-        raise HTTPException(
-            status_code=status.HTTP_502_BAD_GATEWAY,
-            detail=f"GitHub service unavailable or network error: {str(gse)}"
-        )
-    except ValueError as ve:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=str(ve)
-        )
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"An unexpected internal error occurred during search: {str(e)}"
-        )
-
-    # 4. Return formatted JSON response
-    return {
-        "agent": clean_agent,
-        "keywords": keywords,
-        "count": len(results),
-        "results": results
-    }
-
-@router.get("/rate-limit", response_model=RateLimitInfo)
-async def check_rate_limit(
-    x_github_token: Optional[str] = Header(default=None, alias="X-GitHub-Token")
+    agent: str = Query(default="all"), q: str = Query(default=""),
+    category: Optional[str] = Query(default=None, min_length=1, max_length=80),
+    min_stars: Optional[int] = Query(default=None, ge=0),
+    updated: Optional[Literal["30d", "1y", "2y", "older", "unknown"]] = Query(default=None),
+    sort: Literal["relevance", "stars", "recent"] = Query(default="relevance"),
+    page: int = Query(1, ge=1), per_page: int = Query(20, ge=1, le=20)
 ):
-    """Check remaining GitHub Search and Core API rate limits."""
+    clean_agent = agent.lower().strip()
+    intent = understand(q)
+    if intent["agent"] and clean_agent == "all":
+        clean_agent = intent["agent"]
+    if clean_agent != "all" and not config_service.get_agent(clean_agent):
+        raise HTTPException(400, f"Invalid agent. Supported agents: {', '.join(config_service.get_all_agent_ids())}")
+    if clean_agent == "all":
+        clean_agent = None
     try:
-        return await github_client.get_rate_limit(token=x_github_token)
-    except ValueError as ve:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(ve))
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to fetch rate limits: {str(e)}"
-        )
+        return catalog_service.search(clean_agent, q, page, per_page, category, min_stars, updated, sort)
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
+
+
+@router.get("/suggest")
+async def suggest_skills(q: str = Query(default="", max_length=100),
+                         limit: int = Query(default=10, ge=1, le=20)):
+    return {"query": q, "suggestions": catalog_service.suggest(q, limit)}
+
+
+@router.post("/feedback", status_code=status.HTTP_202_ACCEPTED)
+async def log_feedback(feedback: FeedbackRequest):
+    catalog_service.add_feedback(feedback.skill_id, feedback.query, feedback.action)
+    return {"status": "accepted"}
+
+
+@router.get("/catalog/status")
+async def catalog_status():
+    with catalog_service.connect() as db:
+        return {"repositories": db.execute("SELECT COUNT(DISTINCT repo) FROM skills").fetchone()[0],
+                "skills": db.execute("SELECT COUNT(*) FROM skills").fetchone()[0],
+                "last_crawl": catalog_service.meta(db, "last_crawl"),
+                "crawl_status": catalog_service.meta(db, "crawl_status") or "idle",
+                "crawl_error": catalog_service.meta(db, "crawl_error")}
+
+
+@router.post("/catalog/crawl", status_code=status.HTTP_202_ACCEPTED)
+async def start_catalog_crawl(background_tasks: BackgroundTasks,
+                              max_pages: int = Query(default=10, ge=1, le=10)):
+    background_tasks.add_task(github_crawler.run, max_pages)
+    return {"status": "started", "max_pages": max_pages}

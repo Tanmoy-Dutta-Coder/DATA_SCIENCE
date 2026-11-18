@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertTriangle, Key, ServerCrash, Clock, AlertCircle } from 'lucide-react';
+import { AlertTriangle, ServerCrash, Clock, AlertCircle } from 'lucide-react';
 
 interface ErrorAlertProps {
   error: {
@@ -7,11 +7,10 @@ interface ErrorAlertProps {
     message: string;
     retryAfter?: string | null;
   };
-  onOpenTokenModal: () => void;
   onRetry: () => void;
 }
 
-export const ErrorAlert: React.FC<ErrorAlertProps> = ({ error, onOpenTokenModal, onRetry }) => {
+export const ErrorAlert: React.FC<ErrorAlertProps> = ({ error, onRetry }) => {
   const isRateLimit = error.status === 429 || error.message.toLowerCase().includes('rate limit');
   const isGateway = error.status === 502 || error.message.toLowerCase().includes('unavailable');
   const isBadInput = error.status === 400;
@@ -33,9 +32,9 @@ export const ErrorAlert: React.FC<ErrorAlertProps> = ({ error, onOpenTokenModal,
           <div className="flex items-center space-x-2">
             <span className="font-semibold text-rose-200">
               {isRateLimit
-                ? 'Rate Limit Exceeded (429)'
+                ? 'Request Limit Reached'
                 : isGateway
-                  ? 'GitHub API Unavailable (502)'
+                  ? 'Catalog Service Unavailable'
                   : isBadInput
                     ? 'Bad Request (400)'
                     : 'Search Error'}
@@ -44,17 +43,9 @@ export const ErrorAlert: React.FC<ErrorAlertProps> = ({ error, onOpenTokenModal,
 
           <p className="text-slate-300 text-xs leading-relaxed">{error.message}</p>
 
-          {/* Rate limit helpful guidance */}
+          {/* Retry guidance */}
           {isRateLimit && (
             <div className="pt-2 flex items-center space-x-3">
-              <button
-                type="button"
-                onClick={onOpenTokenModal}
-                className="inline-flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 text-xs font-semibold border border-amber-500/40 transition-colors"
-              >
-                <Key className="w-3.5 h-3.5" />
-                <span>Configure GitHub PAT Token</span>
-              </button>
               <button
                 type="button"
                 onClick={onRetry}

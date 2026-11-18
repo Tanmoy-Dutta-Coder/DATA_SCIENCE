@@ -42,7 +42,7 @@ async def health_check():
 async def root():
     return {
         "message": "Welcome to SkillFinder API. Visit /docs for Swagger UI documentation.",
-        "endpoints": ["/api/agents", "/api/search", "/api/rate-limit", "/health"]
+        "endpoints": ["/api/agents", "/api/search", "/api/catalog/status", "/api/catalog/crawl", "/api/feedback", "/health"]
     }
 
 if __name__ == "__main__":

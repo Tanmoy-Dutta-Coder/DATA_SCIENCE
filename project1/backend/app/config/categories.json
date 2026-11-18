@@ -1,0 +1,12 @@
+{
+  "development": ["code", "coding", "programming", "developer", "refactor", "git", "api", "python", "javascript"],
+  "testing": ["test", "testing", "qa", "quality assurance", "playwright", "pytest"],
+  "data": ["data", "sql", "database", "analytics", "csv", "pandas", "spreadsheet", "excel"],
+  "documents": ["document", "pdf", "word", "spreadsheet", "excel", "forms", "xlsx"],
+  "research": ["research", "investigation", "search", "sources", "citation", "literature"],
+  "writing": ["writing", "copywriting", "blog", "content", "editorial"],
+  "design": ["design", "figma", "ui", "ux", "visual", "image", "graphics"],
+  "devops": ["devops", "docker", "kubernetes", "deploy", "ci/cd", "cloud"],
+  "security": ["security", "vulnerability", "owasp", "audit", "threat"],
+  "automation": ["automation", "workflow", "browser", "scrape", "integration", "orchestration"]
+}

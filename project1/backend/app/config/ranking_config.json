@@ -1,0 +1,32 @@
+{
+  "weights": {
+    "text_relevance": 0.75,
+    "agent_match": 0.08,
+    "log_scaled_stars": 0.06,
+    "recency": 0.05,
+    "feedback_popularity": 0.02,
+    "category_match": 0.04
+  },
+  "text_field_weights": {
+    "name": 0.45,
+    "tags": 0.30,
+    "description": 0.20,
+    "skill_text": 0.05
+  },
+  "normalization": {
+    "stars_log_max": 10000,
+    "feedback_log_max": 100,
+    "recency_half_life_days": 365,
+    "synonym_relevance_factor": 0.45
+  },
+  "penalties": {
+    "archived": 0.20,
+    "stale_2y": 0.10,
+    "stale_days": 730
+  },
+  "limits": {
+    "candidates": 300,
+    "results": 20
+  },
+  "star_facets": [0, 10, 50, 100]
+}

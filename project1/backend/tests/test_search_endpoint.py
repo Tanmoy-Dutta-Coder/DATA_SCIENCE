@@ -1,113 +1,81 @@
-import re
+"""Endpoint tests for SkillFinder's local-catalog search API."""
+import unittest
 from unittest.mock import patch
-from fastapi import Response, HTTPException
+
+from fastapi import HTTPException
 
 from app.api.routes import search_skills_endpoint
-from github_search import GitHubRateLimitError, GitHubSearchError
+
 
 def run_coro(coro):
-    """Executes a coroutine stack synchronously without socket/loop dependencies."""
-    stack = [coro]
-    val = None
-    while stack:
-        try:
-            val = stack[-1].send(val)
-            if hasattr(val, "send"):
-                stack.append(val)
-                val = None
-        except StopIteration as e:
-            stack.pop()
-            val = e.value
-    return val
-
-def test_search_endpoint_success_comma():
-    fake_results = [
-        {
-            "name": "pdf-parser",
-            "owner": "testowner",
-            "description": "Extract forms from PDF",
-            "stars": 42,
-            "last_updated": "2026-11-15T00:00:00Z",
-            "html_url": "https://github.com/testowner/pdf-parser",
-            "matched_files": ["skills/pdf.md"]
-        }
-    ]
-
-    async def fake_search(agent, keywords):
-        assert agent == "claude"
-        assert keywords == "pdf forms"
-        return fake_results
-
-    with patch("app.api.routes.search_skills", side_effect=fake_search):
-        resp = Response()
-        data = run_coro(search_skills_endpoint(response=resp, agent="claude", q="pdf,forms"))
-        assert data["agent"] == "claude"
-        assert data["keywords"] == ["pdf", "forms"]
-        assert data["count"] == 1
-        assert len(data["results"]) == 1
-        assert data["results"][0]["name"] == "pdf-parser"
-        print("Success comma-separated test passed!")
-
-def test_search_endpoint_max_five_keywords():
-    async def fake_search(agent, keywords):
-        assert agent == "antigravity"
-        assert keywords == "one two three four five"
-        return []
-
-    with patch("app.api.routes.search_skills", side_effect=fake_search):
-        resp = Response()
-        data = run_coro(search_skills_endpoint(
-            response=resp,
-            agent="antigravity",
-            q="one, two three,four, five, six, seven"
-        ))
-        assert len(data["keywords"]) == 5
-        assert data["keywords"] == ["one", "two", "three", "four", "five"]
-        print("Max 5 keywords test passed!")
-
-def test_search_endpoint_invalid_agent_400():
-    resp = Response()
+    """Run an endpoint coroutine that completes without external I/O."""
     try:
-        run_coro(search_skills_endpoint(response=resp, agent="unknown_agent", q="test"))
-        assert False, "Should have raised HTTPException"
-    except HTTPException as he:
-        assert he.status_code == 400
-        assert "does not exist in configuration" in he.detail
-        print("Invalid agent 400 error test passed!")
+        coro.send(None)
+    except StopIteration as result:
+        return result.value
+    raise AssertionError("Endpoint unexpectedly suspended")
 
-def test_search_endpoint_rate_limit_429():
-    async def fake_search(agent, keywords):
-        raise GitHubRateLimitError("Rate limit exceeded", retry_after=45)
 
-    with patch("app.api.routes.search_skills", side_effect=fake_search):
-        resp = Response()
-        try:
-            run_coro(search_skills_endpoint(response=resp, agent="codex", q="python"))
-            assert False, "Should have raised HTTPException"
-        except HTTPException as he:
-            assert he.status_code == 429
-            assert "Retry after 45 seconds" in he.detail
-            assert resp.headers.get("Retry-After") == "45"
-            print("Rate limit 429 error test passed!")
+class SearchEndpointTests(unittest.TestCase):
+    def test_search_endpoint_success_comma_separated_terms(self):
+        expected = {
+            "agent": "claude",
+            "keywords": ["pdf", "forms"],
+            "query": {"core": "pdf forms", "synonyms": [], "category": "documents", "agent": None},
+            "count": 1,
+            "page": 1,
+            "per_page": 20,
+            "results": [{"name": "pdf-parser", "owner": "testowner"}],
+            "suggestions": [],
+            "catalog_updated_at": None,
+        }
+        with patch("app.api.routes.catalog_service.search", return_value=expected) as search:
+            data = run_coro(search_skills_endpoint(agent="claude", q="pdf,forms", category=None,
+                                                   min_stars=None, updated=None, sort="relevance", page=1, per_page=20))
 
-def test_search_endpoint_github_down_502():
-    async def fake_search(agent, keywords):
-        raise GitHubSearchError("Network unreachable")
+        search.assert_called_once_with("claude", "pdf,forms", 1, 20, None, None, None, "relevance")
+        self.assertEqual(data["agent"], "claude")
+        self.assertEqual(data["keywords"], ["pdf", "forms"])
+        self.assertEqual(data["count"], 1)
+        self.assertEqual(data["results"][0]["name"], "pdf-parser")
 
-    with patch("app.api.routes.search_skills", side_effect=fake_search):
-        resp = Response()
-        try:
-            run_coro(search_skills_endpoint(response=resp, agent="claude", q="test"))
-            assert False, "Should have raised HTTPException"
-        except HTTPException as he:
-            assert he.status_code == 502
-            assert "GitHub service unavailable" in he.detail
-            print("GitHub down 502 error test passed!")
+    def test_search_endpoint_passes_query_and_pagination_to_catalog(self):
+        terms = ["one", "two", "three", "four", "five", "six", "seven"]
+        expected = {"agent": "antigravity", "keywords": terms}
+        query = "one, two three,four, five, six, seven"
+        with patch("app.api.routes.catalog_service.search", return_value=expected) as search:
+            data = run_coro(search_skills_endpoint(agent="antigravity", q=query, category=None,
+                                                   min_stars=None, updated=None, sort="relevance", page=2, per_page=10))
+
+        search.assert_called_once_with("antigravity", query, 2, 10, None, None, None, "relevance")
+        self.assertEqual(data["keywords"], terms)
+
+    def test_search_endpoint_invalid_agent_400(self):
+        with self.assertRaises(HTTPException) as error:
+            run_coro(search_skills_endpoint(agent="unknown_agent", q="test", page=1, per_page=20))
+
+        self.assertEqual(error.exception.status_code, 400)
+        self.assertIn("Supported agents", error.exception.detail)
+
+    def test_search_endpoint_empty_query_400(self):
+        with patch("app.api.routes.catalog_service.search", side_effect=ValueError("Enter at least one search term.")) as search:
+            with self.assertRaises(HTTPException) as error:
+                run_coro(search_skills_endpoint(agent="codex", q="   ", category=None, min_stars=None,
+                                                updated=None, sort="relevance", page=1, per_page=20))
+
+        search.assert_called_once_with("codex", "   ", 1, 20, None, None, None, "relevance")
+        self.assertEqual(error.exception.status_code, 400)
+        self.assertEqual(error.exception.detail, "Enter at least one search term.")
+
+    def test_search_endpoint_catalog_value_error_is_client_error(self):
+        with patch("app.api.routes.catalog_service.search", side_effect=ValueError("Invalid local query")):
+            with self.assertRaises(HTTPException) as error:
+                run_coro(search_skills_endpoint(agent="claude", q="bad query", category=None, min_stars=None,
+                                                updated=None, sort="relevance", page=1, per_page=20))
+
+        self.assertEqual(error.exception.status_code, 400)
+        self.assertEqual(error.exception.detail, "Invalid local query")
+
 
 if __name__ == "__main__":
-    test_search_endpoint_success_comma()
-    test_search_endpoint_max_five_keywords()
-    test_search_endpoint_invalid_agent_400()
-    test_search_endpoint_rate_limit_429()
-    test_search_endpoint_github_down_502()
-    print("All search endpoint unit tests passed successfully!")
+    unittest.main(verbosity=2)

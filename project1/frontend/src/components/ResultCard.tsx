@@ -5,26 +5,29 @@ import {
   FileCode,
   Clock,
   Check,
-  FolderDown
+  FolderDown,
 } from 'lucide-react';
 import { RepositoryResult } from '../types';
 
 interface ResultCardProps {
   repo: RepositoryResult;
   installPathHint?: string;
+  onFeedback?: (action: 'click' | 'copy' | 'open') => void;
 }
 
-export const ResultCard: React.FC<ResultCardProps> = ({ repo, installPathHint }) => {
+export const ResultCard: React.FC<ResultCardProps> = ({ repo, installPathHint, onFeedback }) => {
   const [copiedInstallPath, setCopiedInstallPath] = useState(false);
 
   const getComputedInstallPath = () => {
-    if (!installPathHint) return repo.name;
-    return installPathHint.replace('<skill-name>', repo.name);
+    const targetPath = repo.install_path || installPathHint;
+    if (!targetPath) return repo.name;
+    return targetPath.replace('<skill-name>', repo.name);
   };
 
   const handleCopyInstallPath = () => {
     const path = getComputedInstallPath();
     navigator.clipboard.writeText(path);
+    onFeedback?.('copy');
     setCopiedInstallPath(true);
     setTimeout(() => setCopiedInstallPath(false), 2000);
   };
@@ -49,11 +52,13 @@ export const ResultCard: React.FC<ResultCardProps> = ({ repo, installPathHint })
               {repo.owner ? repo.owner.charAt(0).toUpperCase() : repo.name.charAt(0).toUpperCase()}
             </div>
             <div className="min-w-0">
-              <h3 className="font-semibold text-white group-hover:text-indigo-400 text-sm sm:text-base truncate transition-colors">
+              <h3 onClick={() => onFeedback?.('click')} className="font-semibold text-white group-hover:text-indigo-400 text-sm sm:text-base truncate transition-colors cursor-pointer">
                 <span className="text-slate-400 font-normal">{repo.owner} / </span>
                 <span>{repo.name}</span>
               </h3>
               <div className="flex items-center space-x-3 text-xs text-slate-400 mt-0.5">
+                <span className="capitalize">{repo.agent}</span>
+                {repo.category && <span className="capitalize">{repo.category}</span>}
                 <span className="flex items-center text-amber-300 font-medium">
                   <Star className="w-3.5 h-3.5 mr-1 fill-amber-400/20" />
                   {repo.stars.toLocaleString()}
@@ -78,6 +83,13 @@ export const ResultCard: React.FC<ResultCardProps> = ({ repo, installPathHint })
         <p className="text-xs sm:text-sm text-slate-300 mb-4 leading-relaxed line-clamp-2">
           {repo.description || <span className="italic text-slate-500">No description provided.</span>}
         </p>
+
+        {repo.why_matched?.length > 0 && (
+          <div className="mb-4 rounded-xl bg-indigo-500/5 border border-indigo-500/15 px-3 py-2">
+            <div className="text-[11px] font-medium text-indigo-300 mb-1">Why this matched</div>
+            <p className="text-[11px] text-slate-400 leading-relaxed">{repo.why_matched.join(' · ')}</p>
+          </div>
+        )}
 
         {/* Matched Skill Files */}
         {repo.matched_files && repo.matched_files.length > 0 && (
@@ -127,15 +139,18 @@ export const ResultCard: React.FC<ResultCardProps> = ({ repo, installPathHint })
         </button>
 
         {/* Open on GitHub button */}
+        <div className="flex items-center gap-2">
         <a
           href={repo.html_url}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => onFeedback?.('open')}
           className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium shadow-md shadow-indigo-600/25 transition-all"
         >
           <span>Open on GitHub</span>
           <ExternalLink className="w-3.5 h-3.5 opacity-80" />
         </a>
+        </div>
       </div>
     </div>
   );

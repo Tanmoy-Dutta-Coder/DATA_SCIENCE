@@ -1,0 +1,19 @@
+{
+  "pdf": ["portable document format"],
+  "spreadsheet": ["excel", "workbook", "xlsx"],
+  "excel": ["spreadsheet", "workbook", "xlsx"],
+  "automation": ["workflow", "orchestration"],
+  "testing": ["software testing", "test automation", "testing framework"],
+  "test": ["software testing", "test automation", "testing framework"],
+  "video generation": ["text-to-video", "video synthesis", "generative video"],
+  "video": ["text-to-video", "video synthesis"],
+  "generation": ["video generation", "generative video"],
+  "react": ["reactjs", "react framework"],
+  "browser": ["web browser", "playwright"],
+  "document": ["file", "word", "pdf"],
+  "database": ["sql", "data store"],
+  "image": ["picture", "visual", "graphics"],
+  "research": ["investigation", "literature review"],
+  "security": ["vulnerability", "audit", "owasp"],
+  "mcp": ["model context protocol"]
+}

@@ -1,12 +1,10 @@
 import React from 'react';
-import { SearchX, Sparkles, Key } from 'lucide-react';
+import { SearchX, Sparkles } from 'lucide-react';
 
 interface EmptyStateProps {
   chips: string[];
   agentName: string;
   onSuggestionClick: (suggestion: string) => void;
-  onOpenTokenModal: () => void;
-  hasCustomToken: boolean;
   sampleSuggestions?: string[];
 }
 
@@ -14,8 +12,6 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   chips,
   agentName,
   onSuggestionClick,
-  onOpenTokenModal,
-  hasCustomToken,
   sampleSuggestions = ['pdf', 'forms', 'react testing', 'sql', 'mcp'],
 }) => {
   return (
@@ -57,19 +53,6 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         </div>
       )}
 
-      {/* Token reminder if rate-limited */}
-      {!hasCustomToken && (
-        <div className="pt-4 border-t border-slate-800/80">
-          <button
-            type="button"
-            onClick={onOpenTokenModal}
-            className="inline-flex items-center space-x-1.5 text-xs text-sky-400 hover:text-sky-300 font-medium"
-          >
-            <Key className="w-3.5 h-3.5" />
-            <span>Set a GitHub Personal Access Token to avoid GitHub rate limits</span>
-          </button>
-        </div>
-      )}
     </div>
   );
 };

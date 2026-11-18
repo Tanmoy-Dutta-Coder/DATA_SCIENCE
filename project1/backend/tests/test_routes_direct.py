@@ -1,5 +1,5 @@
 import asyncio
-from app.api.routes import get_agents, search_skills
+from app.api.routes import get_agents, search_skills_endpoint
 
 async def test_direct_routes():
     agents = await get_agents()
@@ -8,7 +8,7 @@ async def test_direct_routes():
 
     # Test unknown agent throws ValueError
     try:
-        await search_skills(agent="nonexistent", q="test")
+        await search_skills_endpoint(agent="nonexistent", q="test")
         assert False, "Should have thrown HTTPException"
     except Exception as e:
         print("Expected rejection for nonexistent agent:", type(e).__name__)

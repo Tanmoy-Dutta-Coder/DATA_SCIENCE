@@ -1,7 +1,7 @@
 import React from 'react';
-import { ArrowUpDown, Star, SlidersHorizontal } from 'lucide-react';
+import { ArrowUpDown, Star, SlidersHorizontal, Sparkles } from 'lucide-react';
 
-export type SortMode = 'stars' | 'recent';
+export type SortMode = 'relevance' | 'stars' | 'recent';
 
 interface FilterBarProps {
   totalResults: number;
@@ -65,6 +65,13 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             Sort:
           </span>
           <div className="flex items-center space-x-1 bg-slate-950/70 p-0.5 rounded-xl border border-slate-800">
+            <button
+              type="button"
+              onClick={() => onSortChange('relevance')}
+              className={`flex items-center space-x-1 px-2.5 py-0.5 rounded-lg text-[11px] font-medium transition-colors ${sortBy === 'relevance' ? 'bg-indigo-600 text-white font-semibold' : 'text-slate-400 hover:text-white'}`}
+            >
+              <Sparkles className="w-3 h-3" /><span>Relevance</span>
+            </button>
             <button
               type="button"
               onClick={() => onSortChange('stars')}

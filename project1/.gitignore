@@ -49,3 +49,6 @@ pnpm-debug.log*
 *~
 .DS_Store
 Thumbs.db
+backend/skillfinder.db
+backend/skillfinder.db-shm
+backend/skillfinder.db-wal
