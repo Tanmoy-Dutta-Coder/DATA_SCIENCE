@@ -64,20 +64,28 @@ Keep `.env` private and do not commit it. The crawler reads `GITHUB_TOKEN` from 
 
 Start the API from the `backend` directory:
 
-```powershell
+<!-- ```powershell
 $env:PYTHONPATH = "."
 python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+``` -->
+```powershell
+cd "C:\Users\Tanmoy Dutta\OneDrive\Desktop\DATA_SCIENCE\project1\backend"
+.\venv\Scripts\Activate.ps1
+uvicorn app.main:app --reload --port 8000
 ```
-
 The API docs are at `http://127.0.0.1:8000/docs`; health is at `http://127.0.0.1:8000/health`.
 
 ### Frontend
 
 Open a second terminal at the project root:
 
-```powershell
+<!-- ```powershell
 cd frontend
 npm install
+npm run dev
+``` -->
+```powershell
+cd "C:\Users\Tanmoy Dutta\OneDrive\Desktop\DATA_SCIENCE\project1\frontend"
 npm run dev
 ```
 
